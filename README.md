@@ -15,12 +15,15 @@ java -DmainPort=8031 -DadminPort=8023 -DapplicationPath=/ -jar build/libs/instru
 http://localhost:8023/admin/healthcheck?pretty=true
 ```
 {
-  "PostgreSQL" : {
-    "healthy" : false,
-    "message" : "Cannot connect to /tmp/pgsql.sock"
+  DeadlockDetection: {
+    healthy: true
   },
-  "mysql" : {
-    "healthy" : true
+  PostgreSQL: {
+    healthy: false,
+    message: "Cannot connect to /tmp/pgsql.sock"
+  },
+  mysql: {
+    healthy: true
   }
 }
 ```
