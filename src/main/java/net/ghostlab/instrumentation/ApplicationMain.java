@@ -30,9 +30,11 @@ public class ApplicationMain {
   private static final Logger LOG = LoggerFactory.getLogger(ApplicationMain.class);
 
   public static void main(String args[]) {
-    Integer mainPort = 8080;
-    Integer adminPort = mainPort + 1;
-    LOG.info("Server Configured to listen on port " + mainPort);
+    Integer mainPort = Integer.parseInt(System.getProperty("mainPort", "8080"));
+    Integer adminPort = Integer.parseInt(System.getProperty("adminPort", "8081"));
+
+    LOG.info("Application Configured to listen on port " + mainPort);
+    LOG.info("Admin Configured to listen on port " + adminPort);
 
     LOG.debug("Initializing Metrics");
     startReport();
@@ -43,6 +45,7 @@ public class ApplicationMain {
     LOG.info("Configuring Jetty Server");
     webapp.setAdminPort(adminPort);
     webapp.setApplicationPort(mainPort);
+    webapp.setApplicationPath(System.getProperty("applicationPath", "/application"));
 
     LOG.info("Starting Jetty Server");
     webapp.start();
