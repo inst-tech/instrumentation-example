@@ -20,8 +20,6 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 import com.codahale.metrics.jvm.BufferPoolMetricSet;
-import com.codahale.metrics.jvm.CachedThreadStatesGaugeSet;
-import com.codahale.metrics.jvm.ClassLoadingGaugeSet;
 import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.health.jvm.ThreadDeadlockHealthCheck;
 import net.ghostlab.instrumentation.application.Application;
@@ -66,19 +64,12 @@ public class ApplicationMain {
     registerAll("jvm.buffers", new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()), metrics);
     registerAll("jvm.memory", new MemoryUsageGaugeSet(), metrics);
     registerAll("jvm.threads", new ThreadStatesGaugeSet(), metrics);
-//    registerAll("jvm.threads.cached", new CachedThreadStatesGaugeSet(30, TimeUnit.SECONDS), metrics);
-//    registerAll("jvm.class.loading", new ClassLoadingGaugeSet(), metrics);
 
     healthChecks.register("DeadlockDetection", new ThreadDeadlockHealthCheck());
     Slf4jReporter logbackReporter = Slf4jReporter.forRegistry( metrics ).outputTo( LOG )
             .convertRatesTo( TimeUnit.SECONDS )
             .convertDurationsTo( TimeUnit.MILLISECONDS ).build();
     logbackReporter.start( 1, TimeUnit.MINUTES );
-    ConsoleReporter consoleReporter = ConsoleReporter.forRegistry(metrics)
-            .convertRatesTo(TimeUnit.SECONDS)
-            .convertDurationsTo(TimeUnit.MILLISECONDS)
-            .build();
-    consoleReporter.start(1, TimeUnit.MINUTES);
   }
 
   static void registerAll(String prefix, MetricSet metricSet, MetricRegistry registry) {
