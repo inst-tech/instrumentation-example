@@ -35,6 +35,9 @@ dependencies {
 
 task fatJar(type: Jar, dependsOn: build) {
     baseName = project.name + '-all'
+    manifest {
+        attributes 'Main-Class': 'net.ghostlab.instrumentation.ApplicationMain'
+    }
     from {
         configurations.compile.collect {
             it.isDirectory() ? it : zipTree(it).matching {
