@@ -1,0 +1,54 @@
+group 'net.ghostlab'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'eclipse-wtp'
+
+description = "This project implements a TSDB Splicer, which will " +
+        "partition long TSDB queries into smaller chunks, execute them in parallel, and splice the " +
+        "individual results"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javax.servlet:servlet-api:2.5'
+    runtime 'javax.servlet:jstl:1.1.2'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.0.13'
+    compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.1.2'
+    compile group: 'io.dropwizard.metrics', name: 'metrics-jvm', version: '3.1.2'
+    compile group: 'io.dropwizard.metrics', name: 'metrics-healthchecks', version: '3.1.2'
+    compile group: 'io.dropwizard.metrics', name: 'metrics-servlets', version: '3.1.2'
+    compile group: 'io.dropwizard.metrics', name: 'metrics-annotation', version: '3.1.2'
+    compile group: 'io.dropwizard.metrics', name: 'metrics-jetty9', version: '3.1.2'
+    compile group: 'biz.paluch.redis', name: 'lettuce', version: '3.2.Final'
+    compile group: 'org.eclipse.jetty', name:'jetty-server', version: '9.2.14.v20151106'
+    compile group: 'org.eclipse.jetty', name:'jetty-webapp', version: '9.2.14.v20151106'
+}
+
+task fatJar(type: Jar, dependsOn: build) {
+    baseName = project.name + '-all'
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it).matching {
+                exclude {
+                    it.path.contains('META-INF')
+                }
+            }
+        }
+    }
+    with jar
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.ghostlab.instrumentation.ApplicationMain'
+    }
+}
