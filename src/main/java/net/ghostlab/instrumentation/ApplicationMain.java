@@ -70,6 +70,11 @@ public class ApplicationMain {
             .convertRatesTo( TimeUnit.SECONDS )
             .convertDurationsTo( TimeUnit.MILLISECONDS ).build();
     logbackReporter.start( 1, TimeUnit.MINUTES );
+    /*ConsoleReporter consoleReporter = ConsoleReporter.forRegistry(metrics)
+            .convertRatesTo(TimeUnit.SECONDS)
+            .convertDurationsTo(TimeUnit.MILLISECONDS)
+            .build();
+    consoleReporter.start(1, TimeUnit.MINUTES);*/
   }
 
   static void registerAll(String prefix, MetricSet metricSet, MetricRegistry registry) {
