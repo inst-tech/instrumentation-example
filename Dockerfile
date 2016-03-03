@@ -10,6 +10,6 @@ ENV JARNAME = instrumentation-all-1.0-SNAPSHOT.jar
 RUN mkdir $WORKDIR
 WORKDIR $WORKDIR
 
-ADD build/libs/$JARNAME $WORKDIR
+ADD build\libs\$JARNAME $WORKDIR
 
 CMD ["java", "-jar", "$JARNAME"]

@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    <conversionRule conversionWord="syslogStart" converterClass="ch.qos.logback.classic.pattern.SyslogStartConverter"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"myWebservice","roles":["customerorder","auth"],"buildinfo":{"version":"Version 0.1.0-SNAPSHOT","lastcommit":"75473700d5befa953c45f630c6d9105413c16fe1"}}</customFields>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%syslogStart{@cee:}</pattern>
+            </layout>
+            <providers>
+                <timestamp/>
+                <version/>
+                <message/>
+                <logLevel/>
+                <logLevelValue/>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                        <maxLength>2048</maxLength>
+                        <shortenedClassNameLength>20</shortenedClassNameLength>
+                        <exclude>sun\.reflect\..*\.invoke.*</exclude>
+                        <exclude>net\.sf\.cglib\.proxy\.MethodProxy\.invoke</exclude>
+                        <rootCauseFirst>true</rootCauseFirst>
+                    </throwableConverter>
+                </stackTrace>
+                <nestedField>
+                    <fieldName>@metadata</fieldName>
+                    <providers>
+                        <loggerName/>
+                        <threadName/>
+                        <pattern>
+                            <pattern>
+                                {
+                                "myCustomField": "fieldValue",
+                                "relative": "#asLong{%relative}"
+                                }
+                            </pattern>
+                        </pattern>
+                        <context/>
+                        <contextName/>
+                        <callerData/>
+                        <mdc/>
+                        <tags/>
+
+                        <logstashMarkers/>
+                        <arguments/>
+                    </providers>
+                </nestedField>
+            </providers>
         </encoder>
     </appender>
 
