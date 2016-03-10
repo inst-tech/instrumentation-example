@@ -1,0 +1,20 @@
+{
+  "@timestamp":"2016-03-10T15:37:30.429-06:00",
+  "@version":1,
+  "message":"Application Configured to listen on port 8031",
+  "level":"INFO",
+  "level_value":20000,
+  "appname":"theappname",
+  "myCustomField":"fieldValue",
+  "environment":"theenv",
+  "@metadata":{},
+  "@context":{
+    "logger_name":"net.ghostlab.instrumentation.ApplicationMain",
+    "thread_name":"main",
+    "caller_class_name":"net.ghostlab.instrumentation.ApplicationMain",
+    "caller_method_name":"main",
+    "caller_file_name":"AplicationMain.java",
+    "caller_line_number":42,
+    "HOSTNAME":"HP-Laptop"
+  }
+}
