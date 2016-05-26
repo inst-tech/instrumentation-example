@@ -1,7 +1,7 @@
 # Version: 0.0.1
 #FROM java:openjdk-8-jre
 #FROM anapsix/alpine-java:jre8
-FROM perspicaio/docker-java
+FROM perspicaio/java
 
 MAINTAINER Jonathan Creasy "jonathan.creasy@gmail.com"
 
